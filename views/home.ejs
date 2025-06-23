@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title><%= title %> || HOME</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+   body {
+  background: url('https://i.ytimg.com/vi/RsRyBoasMWs/maxresdefault.jpg') center center no-repeat fixed;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+}
+  </style>
+</head>
+<body class="bg-gray-900 bg-opacity-80 text-white font-sans">
+  <nav class="bg-black-800 bg-opacity-100 px-8 py-4 shadow-md flex justify-between items-center fixed w-full top-0 left-0 z-50">
+    <h1 class="text-2xl font-bold">♔ Shatranj</h1>
+  </nav>
+  <div class="flex flex-col items-center justify-center h-screen text-center px-4 pt-16">
+    <h2 class="text-5xl md:text-6xl font-extrabold mb-6">Welcome to <span class="text-cyan-500">Shatranj</span></h2>
+    <p class="text-lg md:text-xl mb-10 max-w-xl">
+      Play real-time chess with friends, track your moves, and record your victories!
+    </p>
+    <a href="/register" class="bg-yellow-400 hover:bg-red-500 text-black font-semibold px-8 py-3 rounded-full text-lg transition shadow-lg">
+      Get Started
+    </a>
+  </div>
+
+</body>
+</html>

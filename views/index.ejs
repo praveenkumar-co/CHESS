@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Chess Game</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/css/styles.css">
+  </head>
+  <body class="bg-gradient-to-br from-[#021f32] to-[#4e4376] p-4 h-screen">
+    <div
+      class="flex flex-col md:flex-row justify-center items-center gap-8 h-full"
+    >
+      <div>
+        <div class="chessboard w-[500px] h-[500px]"></div>
+      </div>
+      <div
+        class="bg-white w-[300px] h-[500px] rounded-lg shadow-lg flex flex-col">
+        <div
+          class="bg-gray-800 text-white p-3 font-bold text-center rounded-t-lg"
+        >
+          Live Chat
+        </div>
+        <div
+          id="chat-messages"
+          class="flex-1 p-2 overflow-y-auto text-sm space-y-2"
+        ></div>
+        <form id="chat-form" class="p-2 flex">
+          <input
+            id="chat-input"
+            type="text"
+            class="flex-1 p-2 border rounded-l outline-none"
+            placeholder="Type a message..."
+            autocomplete="off"
+          />
+          <button type="submit" class="bg-blue-500 text-white px-4 rounded-r">
+            Send
+          </button>
+        </form>
+      </div>
+    </div>
+    <style>
+      .chessboard {
+        display: grid;
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+        grid-template-rows: repeat(8, minmax(0, 1fr));
+        width: 500px;
+        height: 500px;
+        transform: rotate(0deg);
+      }
+      .piece.white {
+        color: white;
+        filter: drop-shadow(0 0 2px rgba(0, 0, 0, 1));
+      }
+      .piece.black {
+        color: black;
+      }
+      .flipped {
+        transform: rotate(180deg);
+      }
+      .square {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .square.light {
+        background-color: #f0d9b5;
+      }
+      .square.dark {
+        background-color: #d09845;
+      }
+
+      .piece {
+        font-size: 46px;
+        cursor: pointer;
+      }
+      .piece.draggable {
+        cursor: grab;
+      }
+      .dragging {
+        opacity: 1;
+      }
+      .flipped .piece {
+        transform: rotate(180deg);
+      }
+      .message {
+        display: block;
+        color: rgb(0, 0, 0);
+        padding: 10px;
+        background-color: #ffffff;
+        border-radius: 4px;
+        margin-bottom: 4px;
+      }
+    </style>
+    <script
+      src="https://cdn.socket.io/4.8.1/socket.io.min.js"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/chess.js/0.10.3/chess.min.js"
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <script src="/js/chessgame.js"></script>
+    <script>
+      const chatForm = document.getElementById("chat-form");
+      const chatInput = document.getElementById("chat-input");
+      const chatMessages = document.getElementById("chat-messages");
+      const moveHistoryBody = document.getElementById("history-body");
+      let moveCount = 1 ;
+      chatForm.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const msg = chatInput.value.trim();
+        if (msg) {
+          socket.emit("chatMessage", msg);
+          chatInput.value = "";
+        }
+        console.log("hello");
+      });
+      socket.on("chatMessage", ({ sender, message }) => {
+        console.log("Received message:", sender, message);
+        console.log("chatMessages element:", chatMessages);
+        const msg = document.createElement("div");
+        msg.innerHTML = `<strong>${sender}:</strong> ${message}`;
+        msg.classList.add("message");
+        chatMessages.appendChild(msg);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      });
+    </script>
+  </body>
+</html>
+  
